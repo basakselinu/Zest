@@ -1,0 +1,31 @@
+﻿@model EntityLayer.Concrete.Blog
+
+@{
+    ViewData["Title"] = "BlogEkle";
+    Layout = "~/Views/Shared/YazarLayout.cshtml";
+}
+
+<h1>Yeni Tarif Oluştur</h1>
+<br />
+@using (Html.BeginForm("BlogEkle", "Blog", FormMethod.Post))
+{
+    @Html.Label("Tarif Başlığı")
+    @Html.TextBoxFor(x => x.BlogBaslik, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.BlogBaslik)
+    <br />
+    @Html.Label("Tarif Görseli")
+    @Html.TextBoxFor(x => x.BlogResim, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.BlogResim)
+    <br />
+    @Html.Label("Tarif Kapak Görseli")
+    @Html.TextBoxFor(x => x.BlogKapakResim, new { @class = "form-control" })
+    <br />
+    @Html.Label("Kategori")
+    @Html.DropDownListFor(x=>x.KategoriID,(List<SelectListItem>)ViewBag.deg, new { @class = "form-control" })
+    <br />
+    @Html.Label("Tarif İçeriği")
+    @Html.TextAreaFor(x => x.Blogİcerik,10,3, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.Blogİcerik)
+    <br />
+    <button class="btn btn-primary">Kaydet</button>
+}

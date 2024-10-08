@@ -1,0 +1,30 @@
+﻿@using EntityLayer.Concrete
+@model List<Mesaj2>
+@{
+    ViewData["Title"] = "GelenKutusu";
+    Layout = "~/Views/Shared/YazarLayout.cshtml";
+}
+
+<h1>Gelen Kutusu</h1>
+<table class="table table-bordered">
+    <tr>
+        <th>#</th>
+        <th>Konu</th>
+        <th>Gönderen</th>
+        <th>Tarih</th>
+        <th>Mesajı Aç</th>
+  
+    </tr>
+    @foreach (var item in Model)
+    {
+<tr>
+    <th>@item.MesajID</th>
+    <td>@item.MesajDetay</td>
+    <td>@item.GonderenKullanici.YazarAd</td>
+    <td>@(((DateTime)item.MesajTarih).ToString("dd-MMM-yyyy"))</td>
+
+    <td><a href="/Mesaj/MesajDetayları/@item.MesajID" class="btn btn-success">Mesajı Aç</a></td>
+</tr>
+    }
+</table>
+<a href="/Mesaj/MesajDetauları" class="btn btn-primary">Yeni Mesaj Oluştur</a>

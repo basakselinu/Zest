@@ -1,0 +1,22 @@
+﻿@model EntityLayer.Concrete.Kategori
+
+@{
+    ViewData["Title"] = "KategoriEkle";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Yeni Tarif Girişi</h1>
+<br />
+@using (Html.BeginForm("KategoriEkle", "Kategori", FormMethod.Post))
+{
+    @Html.Label("Yemek Adı")
+    @Html.TextBoxFor(x => x.KategoriAd, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.KategoriAd)
+    <br />
+    @Html.Label("Yemek Açıklaması")
+    @Html.TextAreaFor(x => x.KategoriTanimlama, 10, 3, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.KategoriTanimlama)
+    <br />
+    <button class="btn btn-primary">Kaydet</button>
+}
+

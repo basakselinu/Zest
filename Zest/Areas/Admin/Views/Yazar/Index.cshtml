@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Yazar Ajax İşlemleri</h1>
+<br />
+<button type="button" id="btngetlist" class="btn btn-primary">Yazar Listesi</button>
+<button type="button" id="btngetbyid" class="btn btn-success">Yazar Getir</button>
+<button type="button" id="btnaddwriter" class="btn btn-warning">Yazar Ekle</button>
+<button type="button" id="btndeletewriter" class="btn btn-danger">Yazar Sil</button>
+<button type="button" id="btnupdatewriter" class="btn btn-info">Yazar Güncelle</button>
+<br />
+<br />
+<div id="yazarlist">
+    Buraya gelir
+</div>
+<br />
+<div id="yazarget">
+    Buraya yazar gelir
+</div>
+<br />
+<div>
+    <input type="text" id="xid" placeholder="Yazar ID değerini girin" class="form-control" />
+</div>
+<br />
+<div>
+    <input type="text" id="txtyazarid" placeholder="Yazar ID " class="form-control" />
+    <input type="text" id="txtyazarname" placeholder="Yazar Adı " class="form-control" />
+</div>
+<br />
+<div>
+    <input type="text" id="txtid" placeholder="Silinecek Yazar ID" class="form-control" />
+</div>
+<br />
+<div>
+    <input type="text" id="txtid1" placeholder="Güncellenecek Yazar ID" class="form-control" />
+    <input type="text" id="txtname1" placeholder="Güncellenecek Yazar Adı" class="form-control" />
+</div>
+
+
+
+@section scripts{
+    <script>
+        $("#btngetlist").click(function () {
+            $.ajax({
+                contentType: "application.json",
+                dataType: "json",
+                type: "Get",
+                url: "/Admin/Yazar/YazarListesi/",
+                success: function (func) {
+                    let w = jQuery.parseJSON(func);
+                    console.log(w);
+                    let tablehtml = `<table class=table table-bordered> <tr> <th>#</th><th>Yazar Adı</th> </tr>`;
+
+                    $.each(w, (index, value) => {
+                        tablehtml += `<tr><td>${value.YazarID}</td> <td>${value.YazarAdi}</td></tr>`
+                    });
+                    tablehtml += "</table>";
+                    $("#yazarlist").html(tablehtml);
+                }
+            });
+        });
+
+        $("#btngetbyid").click(x => {
+            let id = $("#xid").val();
+            $.ajax({
+                contentType: "application.json",
+                dataType: "json",
+                type: "Get",
+                url: "/Admin/Yazar/IDGoreYazarListesiGetir/",
+                data: { xid: id },
+                success: function (func) {
+                    let w = jQuery.parseJSON(func)
+                    console.log(w);
+
+                    let getvalue = `<table class=table table-bordered> <tr> <th>#</th><th>Yazar Adı</th> </tr>
+<tr><td>${w.YazarID}</td> <td>${w.YazarAdi}</td></tr></table>`;
+                    $("#yazarget").html(getvalue);
+                }
+            });
+        });
+
+        $("#btnaddwriter").click(function () {
+            let yazar = {
+                YazarID: $("#txtyazarid").val(),
+                YazarAdi: $("#txtyazarname").val()
+            };
+
+            $.ajax({
+                type: "Post",
+                url: "/Admin/Yazar/YazarEkle/",
+                data: yazar,
+                success: function (func) {
+                    let sonuc = jQuery.parseJSON(func);
+                    alert("Yazar Ekleme İşlemi Başarılı Bir Şekilde Gerçekleşti");
+                }
+            });
+        });
+
+        $("#btndeletewriter").click(x => {
+            let id = $("#txtid").val();
+
+            $.ajax({
+                type: "Post",
+                url: "/Admin/Yazar/YazarSil/" + id,
+                dataType: "json",
+                success: function (func) {
+                    alert("Yazar Silme İşlemi Başarılı Bir Şekilde Gerçekleşti");
+                }
+            });
+        });
+
+        $("#btnupdatewriter").click(function () {
+            let yazar = {
+                YazarID: $("#txtid1").val(),
+                YazarAdi: $("#txtname1").val()
+            };
+
+            $.ajax({
+                type: "Post",
+                url: "/Admin/Yazar/YazarGüncelle/",
+                data: yazar,
+                success: function (func) {                  
+                    alert("Yazar Güncelleme İşlemi Başarılı Bir Şekilde Gerçekleşti");
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,32 @@
+﻿@using EntityLayer.Concrete
+@model List<Blog>
+@{
+    ViewData["Title"] = "YazaraGoreBlogListesi";
+    Layout = "~/Views/Shared/YazarLayout.cshtml";
+}
+
+<h1>Yazarın Blogları</h1>
+<table class="table table-bordered">
+    <tr>
+        <th>#</th>
+        <th>Tarif Başlığı</th>
+        <th>Oluşturma Tarihi</th>
+        <th>Yemekler</th>
+        <th>Durum</th>
+        <th>Sil</th>
+        <th>Düzenle</th>
+    </tr>
+    @foreach(var item in Model)
+            {
+                <tr>
+                    <th>@item.BlogID</th>
+                    <td>@item.BlogBaslik</td>
+                    <td>@(((DateTime)item.BlogTarih).ToString("dd-MMM-yyyy"))</td>
+                    <td>@item.Kategori.KategoriAd</td>
+                    <td>@item.BlogDurum</td>
+                    <td><a href="/Blog/BlogSil/@item.BlogID" onclick="return confirm('Silmek istediğine emin misin?');" class="btn btn-danger">Sil</a></td>
+                    <td><a href="/Blog/BlogGuncelle/@item.BlogID" class="btn btn-success">Düzenle</a></td>                    
+                </tr>
+            }
+</table>
+<a href="/Blog/BlogEkle" class="btn btn-primary">Yeni Tarif Oluştur</a>

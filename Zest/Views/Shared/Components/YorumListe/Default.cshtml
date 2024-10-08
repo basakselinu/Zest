@@ -1,0 +1,7 @@
+﻿@model IEnumerable<Zest.Models.KullanıcıYorumu>
+
+@foreach(var c in Model)
+            {
+                <p>@c.ID.</p>
+                <p>@c.KullanıcıAdı</p>
+            }
